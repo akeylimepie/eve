@@ -18,8 +18,8 @@ function tuneSSH() {
   service sshd restart
   printProcessSuccess
 
-  printProcess "Update UFW"
+  printProcess "Enable UFW"
+  ufw allow $ssh_port > /dev/null 2>&1
+  ufw --force enable > /dev/null 2>&1
   printProcessSuccess
-  ufw allow $ssh_port
-  ufw --force enable
 }
