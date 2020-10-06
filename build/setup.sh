@@ -47,7 +47,7 @@ function tuneSSH() {
     fi
   fi
 
-  printProcess "Update SSH config, restart service"
+  printProcess "Update SSH"
   sed -i -r -e "s/^(\#?)(Port)([[:space:]]+).+$/\2\3$ssh_port/" /etc/ssh/sshd_config
   sed -i -r -e "s/^(\#?)(PermitRootLogin)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
 
@@ -102,8 +102,6 @@ function tuneUser() {
   fi
 }
 printLogo
-encryptedPassword=test
-printf "password \e[38;5;255;48;5;237m %s \e[0m\n" "$encryptedPassword"
 
 isLinux
 
