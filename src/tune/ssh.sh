@@ -7,7 +7,7 @@ function tuneSSH() {
     fi
   fi
 
-  printProcess "Update SSH config, restart service"
+  printProcess "Update SSH"
   sed -i -r -e "s/^(\#?)(Port)([[:space:]]+).+$/\2\3$ssh_port/" /etc/ssh/sshd_config
   sed -i -r -e "s/^(\#?)(PermitRootLogin)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
 

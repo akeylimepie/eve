@@ -18,12 +18,12 @@ function tuneUser() {
   password=$(openssl rand -base64 12)
   encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' $password)
 
-  printProcess "Create new sudo user"
+  printProcess "Create new sudo user $user"
   useradd -d "/home/$user" -m -p "$encryptedPassword" -s "/bin/bash" $user
   usermod -aG sudo $user
   printProcessSuccess
 
-  printSuccess "$user: $encryptedPassword"
+  printf "password \e[38;5;255;48;5;237m %s \e[0m\n" "$encryptedPassword"
 
   if [ -f /root/.ssh/authorized_keys ]; then
     authorized_keys=true

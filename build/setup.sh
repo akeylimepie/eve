@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 function printLogo() {
   for i in $(seq 53 57); do printf "\e[48;5;%sm \e[0m" "$i"; done
-  printf "\e[38;5;256;48;5;57m eva \e[0m"
+  printf "\e[38;5;255;48;5;57m eva \e[0m"
   for i in $(seq 57 -1 53); do printf "\e[48;5;%sm \e[0m" "$i"; done
   echo
 }
@@ -58,10 +58,10 @@ function tuneSSH() {
   service sshd restart
   printProcessSuccess
 
-  printProcess "Update UFW"
+  printProcess "Enable UFW"
+  ufw allow $ssh_port > /dev/null 2>&1
+  ufw --force enable > /dev/null 2>&1
   printProcessSuccess
-  ufw allow $ssh_port
-  ufw --force enable
 }
 function tuneUser() {
   if [ -z "$user" ]; then
@@ -83,12 +83,12 @@ function tuneUser() {
   password=$(openssl rand -base64 12)
   encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' $password)
 
-  printProcess "Create new sudo user"
+  printProcess "Create new sudo user $user"
   useradd -d "/home/$user" -m -p "$encryptedPassword" -s "/bin/bash" $user
   usermod -aG sudo $user
   printProcessSuccess
 
-  printSuccess "$user: $encryptedPassword"
+  printf "password \e[38;5;255;48;5;237m %s \e[0m\n" "$encryptedPassword"
 
   if [ -f /root/.ssh/authorized_keys ]; then
     authorized_keys=true
@@ -102,6 +102,8 @@ function tuneUser() {
   fi
 }
 printLogo
+encryptedPassword=test
+printf "password \e[38;5;255;48;5;237m %s \e[0m\n" "$encryptedPassword"
 
 isLinux
 
