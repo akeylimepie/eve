@@ -1,5 +1,5 @@
 # eva
-<img src="https://i.imgur.com/T5Sabu9.png" width="598">
+<img src="screenshot.png" width="570">
 
 Automated initial DO droplet setup:
 * add new sudo user
