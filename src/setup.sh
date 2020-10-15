@@ -16,3 +16,5 @@ if [ $authorized_key_exists ]; then
 else
   tuneSSH false
 fi
+
+su $user
