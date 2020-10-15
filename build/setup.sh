@@ -38,17 +38,25 @@ function isLinux() {
     exit 1
   fi
 }
-function tuneSSH() {
-  if [ -z "$ssh_port" ]; then
-    read -p "SSH port [22]: " ssh_port
 
-    if [ -z "$ssh_port" ]; then
-      ssh_port=22
+function binExists() {
+  if command -v "$1" &>/dev/null; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+function tuneSSH() {
+  if [ -z "$ssh" ]; then
+    read -p "SSH port [22]: " ssh
+
+    if [ -z "$ssh" ]; then
+      ssh=22
     fi
   fi
 
   printProcess "Update SSH"
-  sed -i -r -e "s/^(\#?)(Port)([[:space:]]+).+$/\2\3$ssh_port/" /etc/ssh/sshd_config
+  sed -i -r -e "s/^(\#?)(Port)([[:space:]]+).+$/\2\3$ssh/" /etc/ssh/sshd_config
   sed -i -r -e "s/^(\#?)(PermitRootLogin)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
 
   if [ $1 ]; then
@@ -59,8 +67,8 @@ function tuneSSH() {
   printProcessSuccess
 
   printProcess "Enable UFW"
-  ufw allow $ssh_port > /dev/null 2>&1
-  ufw --force enable > /dev/null 2>&1
+  ufw allow $ssh_port >/dev/null 2>&1
+  ufw --force enable >/dev/null 2>&1
   printProcessSuccess
 }
 function tuneUser() {
@@ -81,7 +89,7 @@ function tuneUser() {
   fi
 
   password=$(openssl rand -base64 12)
-  encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' $password)
+  encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' "$password")
 
   printProcess "Create new sudo user $user"
   useradd -d "/home/$user" -m -p "$encryptedPassword" -s "/bin/bash" $user
