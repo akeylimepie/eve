@@ -2,14 +2,14 @@
 
 shebang="#!/usr/bin/env bash"
 
-evaScript=./eva.sh
+eveScript=./eve.sh
 printScript=./print.sh
 setupScript=../build/setup.sh
 
 echo "$shebang" >$setupScript
 
 cat $printScript >>$setupScript
-cat $evaScript >>$setupScript
+cat $eveScript >>$setupScript
 cat ./tune/ssh.sh >>$setupScript
 cat ./tune/user.sh >>$setupScript
 cat ./setup.sh >>$setupScript
