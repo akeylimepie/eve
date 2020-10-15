@@ -23,7 +23,7 @@ function tuneUser() {
   usermod -aG sudo $user
   printProcessSuccess
 
-  printf "password \e[38;5;255;48;5;237m %s \e[0m\n" "$encryptedPassword"
+  printf "password \e[38;5;255;48;5;237m %s \e[0m\n" "$password"
 
   if [ -f /root/.ssh/authorized_keys ]; then
     authorized_keys=true
