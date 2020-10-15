@@ -16,7 +16,7 @@ function tuneUser() {
   fi
 
   password=$(openssl rand -base64 12)
-  encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' $password)
+  encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' "$password")
 
   printProcess "Create new sudo user $user"
   useradd -d "/home/$user" -m -p "$encryptedPassword" -s "/bin/bash" $user
