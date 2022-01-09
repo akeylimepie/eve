@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 function printLogo() {
   for i in $(seq 53 57); do printf "\e[48;5;%sm \e[0m" "$i"; done
-  printf "\e[38;5;255;48;5;57m eva \e[0m"
+  printf "\e[38;5;255;48;5;57m eve \e[0m"
   for i in $(seq 57 -1 53); do printf "\e[48;5;%sm \e[0m" "$i"; done
   echo
 }
