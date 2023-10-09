@@ -59,11 +59,15 @@ function tuneSSH() {
   sed -i -r -e "s/^(\#?)(Port)([[:space:]]+).+$/\2\3$ssh/" /etc/ssh/sshd_config
   sed -i -r -e "s/^(\#?)(PermitRootLogin)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
 
+  sed -i -r -e "s/^(ListenStream=).+$/\1$ssh/" /lib/systemd/system/ssh.socket
+
   if [ $1 ]; then
     sed -i -r -e "s/^(\#?)(PasswordAuthentication)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
   fi
 
-  service sshd restart
+  service sshd restart &> /dev/null
+  service systemctl daemon-reload &> /dev/null
+  service systemctl restart ssh &> /dev/null
   printProcessSuccess
 
   printProcess "Enable UFW"
