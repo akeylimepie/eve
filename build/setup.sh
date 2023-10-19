@@ -147,7 +147,7 @@ fi
 
 authorized_key_exists=false
 
-grep -qE"^app" /etc/group >/dev/null
+grep -qE "^app" /etc/group
 if [ $? -eq 0 ]; then
   groupadd app > /dev/null
 fi
