@@ -9,9 +9,9 @@ fi
 
 authorized_key_exists=false
 
-groupadd app
+groupadd app &> /dev/null
 
-mkdir /srv/app
+mkdir /srv/app &> /dev/null
 chgrp app /srv/app
 
 if [ -n "$user" ]; then
