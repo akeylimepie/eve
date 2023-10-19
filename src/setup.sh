@@ -9,17 +9,16 @@ fi
 
 authorized_key_exists=false
 
-groupadd docker
 groupadd app
 
 mkdir /srv/app
 chgrp app /srv/app
 
-if [ -z "$user" ]; then
+if [ -n "$user" ]; then
   addUser $user
 fi
 
-if [ -z "$deploy" ]; then
+if [ -n "$deploy" ]; then
   addDeployUser $deploy
 fi
 
@@ -28,5 +27,3 @@ if [ $authorized_key_exists ]; then
 else
   tuneSSH false
 fi
-
-su $user
