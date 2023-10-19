@@ -147,9 +147,12 @@ fi
 
 authorized_key_exists=false
 
-groupadd app
+grep -qE"^app" /etc/group >/dev/null
+if [ $? -eq 0 ]; then
+  groupadd app > /dev/null
+fi
 
-mkdir /srv/app
+mkdir -p /srv/app
 chgrp app /srv/app
 
 if [ -n "$user" ]; then
