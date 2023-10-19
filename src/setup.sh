@@ -16,6 +16,7 @@ fi
 
 mkdir -p /srv/app
 chgrp app /srv/app
+chmod 775 /srv/app
 
 if [ -n "$user" ]; then
   addUser $user
