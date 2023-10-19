@@ -9,9 +9,9 @@ fi
 
 authorized_key_exists=false
 
-grep -qE "^app" /etc/group
-if [ $? -eq 0 ]; then
-  groupadd app > /dev/null
+grep -qE "^app:" /etc/group
+if [ $? -ne 0 ]; then
+  groupadd app
 fi
 
 mkdir -p /srv/app
