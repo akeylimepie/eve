@@ -44,18 +44,8 @@ function addDeployUser() {
   else
     createUser $1
 
-    password=$(openssl rand -base64 12)
-    ssh-keygen -f key -t ed25519 -N "$password" -C "$1" &>/dev/null
-
     mkdir -p /home/$1/.ssh
-    cat key.pub > /home/$1/.ssh/authorized_keys
+    touch /home/$1/.ssh/authorized_keys
     chown -R $1:$1 /home/$1/.ssh
-
-    printf "%s key passphrase \e[38;5;255;48;5;237m %s \e[0m\n" "$1" "$password"
-    printf "%s private key:\n" "$1"
-    cat key
-    printf "\n"
-
-    rm key*
   fi
 }
