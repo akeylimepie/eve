@@ -5,7 +5,6 @@ function createUser(){
     encryptedPassword=$(perl -e 'print crypt($ARGV[0], "password")' "$password")
 
     useradd -d "/home/$1" -m -p "$encryptedPassword" -s "/bin/bash" $1
-    usermod -aG sudo $1
     usermod -aG docker $1
     usermod -aG app $1
 
@@ -21,6 +20,7 @@ function addUser() {
     printProcessFail
   else
     createUser $1
+    usermod -aG sudo $1
 
     if [ -f /root/.ssh/authorized_keys ]; then
       authorized_keys=true
