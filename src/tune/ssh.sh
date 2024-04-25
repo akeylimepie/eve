@@ -8,20 +8,26 @@ function tuneSSH() {
   fi
 
   printProcess "Update SSH"
-  touch /etc/ssh/sshd_config.d/99-eve.conf
 
-  echo "Port $ssh" >> /etc/ssh/sshd_config.d/99-eve.conf
-  echo "PermitRootLogin no" >> /etc/ssh/sshd_config.d/99-eve.conf
+  cat > /etc/ssh/sshd_config.d/90-eve.conf <<EOF
+PermitRootLogin no
+EOF
 
   if [ $1 ]; then
-    echo "PasswordAuthentication no" >> /etc/ssh/sshd_config.d/99-eve.conf
+  cat >> /etc/ssh/sshd_config.d/90-eve.conf <<EOF
+PasswordAuthentication no
+EOF
   fi
 
-  sed -i -r -e "s/^(ListenStream=).+$/\1$ssh/" /lib/systemd/system/ssh.socket
+  mkdir -p /etc/systemd/system/ssh.socket.d
+  cat > /etc/systemd/system/ssh.socket.d/90-eve.conf <<EOF
+[Socket]
+ListenStream=
+ListenStream=$ssh
+EOF
 
-  service sshd restart &> /dev/null
-  service systemctl daemon-reload &> /dev/null
-  service systemctl restart ssh &> /dev/null
+  systemctl daemon-reload
+  systemctl restart ssh
   printProcessSuccess
 
   printProcess "Enable UFW"
