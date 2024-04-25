@@ -8,14 +8,16 @@ function tuneSSH() {
   fi
 
   printProcess "Update SSH"
-  sed -i -r -e "s/^(\#?)(Port)([[:space:]]+).+$/\2\3$ssh/" /etc/ssh/sshd_config
-  sed -i -r -e "s/^(\#?)(PermitRootLogin)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
+  touch /etc/ssh/sshd_config.d/99-eve.conf
 
-  sed -i -r -e "s/^(ListenStream=).+$/\1$ssh/" /lib/systemd/system/ssh.socket
+  echo "Port $ssh" >> /etc/ssh/sshd_config.d/99-eve.conf
+  echo "PermitRootLogin no" >> /etc/ssh/sshd_config.d/99-eve.conf
 
   if [ $1 ]; then
-    sed -i -r -e "s/^(\#?)(PasswordAuthentication)([[:space:]]+).+$/\2\3no/" /etc/ssh/sshd_config
+    echo "PasswordAuthentication no" >> /etc/ssh/sshd_config.d/99-eve.conf
   fi
+
+  sed -i -r -e "s/^(ListenStream=).+$/\1$ssh/" /lib/systemd/system/ssh.socket
 
   service sshd restart &> /dev/null
   service systemctl daemon-reload &> /dev/null
