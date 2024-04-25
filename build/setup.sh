@@ -76,6 +76,7 @@ EOF
 
   systemctl daemon-reload
   systemctl restart ssh
+  systemctl restart ssh.socket
   printProcessSuccess
 
   printProcess "Enable UFW"
