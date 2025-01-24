@@ -58,6 +58,7 @@ function tuneSSH() {
   printProcess "Update SSH"
 
   cat > /etc/ssh/sshd_config.d/90-eve.conf <<EOF
+Port $ssh
 PermitRootLogin no
 EOF
 
@@ -66,13 +67,6 @@ EOF
 PasswordAuthentication no
 EOF
   fi
-
-  mkdir -p /etc/systemd/system/ssh.socket.d
-  cat > /etc/systemd/system/ssh.socket.d/90-eve.conf <<EOF
-[Socket]
-ListenStream=
-ListenStream=$ssh
-EOF
 
   systemctl daemon-reload
   systemctl restart ssh
