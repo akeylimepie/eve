@@ -7,6 +7,11 @@ if [ "$USER_ID" != 0 ]; then
   exit 1
 fi
 
+if [ -v iptables ] && [ "$iptables" = "cloudflare" ]; then
+  tuneIptabes
+  exit 0
+fi
+
 authorized_key_exists=false
 
 grep -qE "^app:" /etc/group

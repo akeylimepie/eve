@@ -12,4 +12,5 @@ cat $printScript >>$setupScript
 cat $eveScript >>$setupScript
 cat ./tune/ssh.sh >>$setupScript
 cat ./tune/user.sh >>$setupScript
+cat ./tune/iptables.sh >>$setupScript
 cat ./setup.sh >>$setupScript
